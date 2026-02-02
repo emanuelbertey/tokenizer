@@ -8,7 +8,7 @@ use crate::common::{
     bytes_to_byte_string_literal,
 };
 
-const VOCAB_SIZE: usize = 512;
+const VOCAB_SIZE: usize = 1024;
 const NUM_MERGES: usize = VOCAB_SIZE - 256;
 
 pub fn train(

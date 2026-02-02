@@ -16,3 +16,7 @@ pub fn get_dataset() -> String {
     }
     text
 }
+
+pub fn get_text_dataset(path: &str) -> String {
+    fs::read_to_string(path).expect("Unable to read text file")
+}

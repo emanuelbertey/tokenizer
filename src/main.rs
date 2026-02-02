@@ -8,7 +8,11 @@ use crate::bpe::{ encode, decode, train };
 
 fn main() {
     let now = Instant::now();
-    let text = get_dataset();
+    let text = if std::path::Path::new("texto.txt").exists() {
+        crate::dataset::get_text_dataset("texto.txt")
+    } else {
+        get_dataset()
+    };
     let text_ref: &str = &text;
 
     let mut counts: HashMap<(u32, u32), u32> = HashMap::new();

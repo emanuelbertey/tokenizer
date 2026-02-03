@@ -8,23 +8,22 @@ use crate::common::{
     bytes_to_byte_string_literal,
 };
 
-const VOCAB_SIZE: usize = 1024;
-const NUM_MERGES: usize = VOCAB_SIZE - 256;
-
 pub fn train(
     text: &str,
     merges: &mut HashMap<(u32, u32), u32>,
     vocab: &mut HashMap<u32, String>,
-    counts: &mut HashMap<(u32, u32), u32>
+    counts: &mut HashMap<(u32, u32), u32>,
+    vocab_size: usize,
 ) -> Vec<u32> {
     for i in 0..=255 {
         vocab.insert(i as u32, format!("{}", i as u8 as char));
     }
+    let num_merges = vocab_size - 256;
     let ids = text.as_bytes();
     let mut u32_ids = bytes_to_u32(&ids);
 
     // let mut idx: usize = 256;
-    for i in 0..NUM_MERGES {
+    for i in 0..num_merges {
         *counts = calculate_counts(&u32_ids);
         let max_pair = counts
             .iter()
@@ -40,7 +39,7 @@ pub fn train(
         println!(
             "Epoch {}/{}: {} {} -> {} ({:?}) had {:?} occurrences",
             i + 1,
-            NUM_MERGES,
+            num_merges,
             max_pair.0.0,
             max_pair.0.1,
             idx,
